@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-sftp
+  labels:
+    app: ubuntu-sftp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu-sftp
+  template:
+    metadata:
+      labels:
+        app: ubuntu-sftp
+    spec:
+      containers:
+      - name: openssh-server
+        image:  ghcr.io/linuxserver/openssh-server
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/London"
+        - name: SUDO_ACCESS
+          value: "true"
+        - name: PASSWORD_ACCESS
+          value: "true"
+        - name: USER_PASSWORD
+          value: "demo"
+        - name: USER_NAME
+          value: "demo"
+        ports:
+        - containerPort: 22
